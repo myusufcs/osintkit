@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# Hasil scan & laporan (jangan pernah di-commit — bisa berisi data target)
+osintkit-reports/
+reports/
+*.report.html
+
+# Kredensial
+.env
+credentials*.json
+*.token
+
+# Lain-lain
+*.log
+.DS_Store
+.idea/
+.vscode/
