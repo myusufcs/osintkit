@@ -145,3 +145,9 @@ class MyModule(Module):
 - [ ] IOC enrichment (VirusTotal, AbuseIPDB)
 - [ ] Riwayat scan + diff antar-scan di Web UI
 - [ ] Ekspor laporan ke PDF
+
+## Lisensi
+
+MIT License — lihat [LICENSE](LICENSE). Copyright (c) 2026 M Yusuf Saleh.
+
+> Gunakan hanya untuk aset yang Anda miliki atau engagement yang sudah ada izin tertulis.
