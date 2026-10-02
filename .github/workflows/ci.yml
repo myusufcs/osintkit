@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: [ "3.10", "3.11", "3.12", "3.13" ]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Pasang dependensi (satu-satunya)
+        run: python3 -m pip install --quiet requests
+
+      - name: Compile check
+        run: python3 -m compileall -q osintkit
+
+      - name: Jalankan test (tanpa jaringan)
+        run: python3 -m unittest discover -s tests -v
+
+      - name: Daftar modul
+        run: python3 -m osintkit modules | tail -3
+
+      - name: Smoke test Web UI (bind lokal, lalu matikan)
+        run: |
+          set -e
+          python3 -m osintkit web --port 8799 >/tmp/web.log 2>&1 &
+          WEB=$!
+          sleep 3
+          curl -s -o /dev/null -w 'form -> HTTP %{http_code}\n' http://127.0.0.1:8799/
+          curl -s -o /dev/null -w 'api  -> HTTP %{http_code}\n' http://127.0.0.1:8799/api/modules
+          kill $WEB || true
